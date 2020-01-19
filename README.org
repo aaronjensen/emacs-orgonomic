@@ -1,0 +1,26 @@
+#+title: Orgonomic
+
+* Summary
+
+Orgonomic replaces return and backspace in org-mode with versions that behave
+more like they do in a word processor. That is, return at the end of a bulletted
+list will extend the list. A second return will delete the hanging bullet.
+Backspace in a bulleted list will delete the bullet or reduce its level by one
+if it indented. The same is true for headline levels.
+
+* Installation
+
+This package is not on MELPA. The below instructions assume you are using
+[[https://github.com/jwiegley/use-package][use-package]] and the wonderful [[https://github.com/raxod502/straight.el/][straight.el]]. If you are not, you'll need to
+install it however you typically install packages that are not available on MELPA.
+
+#+begin_src emacs-lisp
+(use-package orgonomic
+  :defer t
+  :straight (orgonomic :host github :repo "aaronjensen/emacs-orgonomic")
+  :hook (org-mode . orgonomic-mode))
+#+end_src
+
+* Credit
+
+Much of the original code comes from here [[http://kitchingroup.cheme.cmu.edu/blog/2017/04/09/A-better-return-in-org-mode/][this blog post]].
