@@ -25,7 +25,7 @@
 
 ;;; Code:
 
-(defvar orgonomic-map
+(defvar orgonomic-mode-map
   (let ((map (make-sparse-keymap)))
     (define-key map (kbd "RET") #'orgonomic-return)
     (define-key map (kbd "<backspace>") #'orgonomic-delete-backward-char)
@@ -37,6 +37,7 @@
     (beginning-of-line)
     (looking-at (concat org-list-full-item-re " ?$"))))
 
+;;;###autoload
 (defun orgonomic-return (&optional ignore)
   "Add new list item, heading or table row with RET.
 A double return on an empty element deletes it.
@@ -94,6 +95,7 @@ Use a prefix arg to get regular RET. "
      (t
       (org-return)))))
 
+;;;###autoload
 (defun orgonomic-delete-backward-char (&optional n)
   "Delete checkboxes, list item bullets and demote headlines."
   (interactive "P")
@@ -144,10 +146,11 @@ Use a prefix arg to get regular RET. "
    (t
     (org-delete-backward-char 1))))
 
+;;;###autoload
 (define-minor-mode orgonomic-mode
   "When active, RET and backspace will behave more like they would in a word
 processor."
-  :keymap orgonomic-map)
+  :keymap orgonomic-mode-map)
 
 (provide 'orgonomic)
 ;;; orgonomic.el ends here
