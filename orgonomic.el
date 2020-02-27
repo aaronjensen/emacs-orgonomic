@@ -28,6 +28,8 @@
 (defvar orgonomic-mode-map
   (let ((map (make-sparse-keymap)))
     (define-key map (kbd "RET") #'orgonomic-return)
+    (define-key map (kbd "S-RET") #'orgonomic-shift-return)
+    (define-key map (kbd "<S-return>") #'orgonomic-shift-return)
     (define-key map (kbd "<backspace>") #'orgonomic-delete-backward-char)
     map))
 
@@ -94,6 +96,14 @@ Use a prefix arg to get regular RET. "
         (org-return)))
      (t
       (org-return)))))
+
+;;;###autoload
+(defun orgonomic-shift-return (n)
+  "Copy down if in table or insert newline and indent."
+  (interactive "p")
+  (if (org-at-table-p)
+      (org-table-copy-down n)
+    (org-return-indent)))
 
 ;;;###autoload
 (defun orgonomic-delete-backward-char (&optional n)
