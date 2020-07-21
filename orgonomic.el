@@ -27,6 +27,7 @@
 
 (defvar orgonomic-mode-map
   (let ((map (make-sparse-keymap)))
+    (define-key map (kbd "-") #'orgonomic-minus)
     (define-key map (kbd "RET") #'orgonomic-return)
     (define-key map (kbd "S-RET") #'orgonomic-shift-return)
     (define-key map (kbd "<S-return>") #'orgonomic-shift-return)
@@ -155,6 +156,18 @@ Use a prefix arg to get regular RET. "
    ;; Normal delete
    (t
     (org-delete-backward-char 1))))
+
+;;;###autoload
+(defun orgonomic-minus (N)
+  "Convert a headline to a list item if at the beginning of an empty headline, otherwise insert -."
+  (interactive "p")
+  (if (and (org-at-heading-p)
+           (looking-back "\\* " 0)
+           (string= "" (org-element-property :title (org-element-context))))
+      (progn
+        (org-toggle-item 0)
+        (end-of-line))
+    (org-self-insert-command N)))
 
 ;;;###autoload
 (define-minor-mode orgonomic-mode
