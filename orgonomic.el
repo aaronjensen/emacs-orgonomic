@@ -76,14 +76,16 @@ Use a prefix arg to get regular RET. "
        (t
         (org-return))))
      ((org-at-heading-p)
-      (cond
-       ;; If there's no title, delete the *'s
-       ((string= "" (org-element-property :title (org-element-context)))
-        (delete-region (line-beginning-position) (line-end-position)))
-       ((eolp)
-        (org-meta-return))
-       (t
-        (org-return))))
+      (let ((title (org-element-property :title (org-element-context))))
+        (cond
+         ;; If there's no title, delete the *'s
+         ((and (stringp title)
+               (string= "" title))
+          (delete-region (line-beginning-position) (line-end-position)))
+         ((eolp)
+          (org-meta-return))
+         (t
+          (org-return)))))
      ((and (org-at-table-p)
            (org-table-check-inside-data-field t))
       (if (-any?
