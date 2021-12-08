@@ -53,7 +53,7 @@ Use a prefix arg to get regular RET. "
      ((eq 'line-break (car (org-element-context)))
       (org-return-indent))
      ;; Open links like usual
-     ((and (eq 'link (car (org-element-context))) (not (eolp)))
+     ((and (eq 'link (car (org-element-context))) (not (looking-at-p " *$")))
       (org-open-at-point-global))
      ;; It doesn't make sense to add headings in inline tasks. Thanks Anders
      ;; Johansson!
@@ -67,10 +67,10 @@ Use a prefix arg to get regular RET. "
        ((orgonomic--in-empty-item)
         (delete-region (line-beginning-position) (line-end-position)))
        ;; add checkboxes
-       ((and (eolp) (org-at-item-checkbox-p))
+       ((and (looking-at-p " *$") (org-at-item-checkbox-p))
         (org-insert-todo-heading nil))
        ;; Insert a new bullet if at the end of the line
-       ((eolp)
+       ((looking-at-p " *$")
         (org-meta-return))
        ;; Otherwise, just return normally
        (t
@@ -82,7 +82,7 @@ Use a prefix arg to get regular RET. "
          ((and (stringp title)
                (string= "" title))
           (delete-region (line-beginning-position) (line-end-position)))
-         ((eolp)
+         ((looking-at-p " *$")
           (org-meta-return))
          (t
           (org-return)))))
