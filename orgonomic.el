@@ -71,6 +71,8 @@ Use a prefix arg to get regular RET. "
         (org-insert-todo-heading nil))
        ;; Insert a new bullet if at the end of the line
        ((looking-at-p " *$")
+        (when auto-fill-function
+          (org-auto-fill-function))
         (org-meta-return))
        ;; Otherwise, just return normally
        (t
@@ -83,6 +85,8 @@ Use a prefix arg to get regular RET. "
                (string= "" title))
           (delete-region (line-beginning-position) (line-end-position)))
          ((looking-at-p " *$")
+          (when auto-fill-function
+            (org-auto-fill-function))
           (org-meta-return))
          (t
           (org-return)))))
